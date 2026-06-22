@@ -1,1 +1,6 @@
-  First assignment: Hospital database. SQL SELECT queries with JOIN, GROUP BY, CTE, UNION ALL
+First assignment: Hospital database. SQL SELECT queries with JOIN, GROUP BY, CTE, UNION ALL
+Головний запит :
+1. Об'єднує через UNION ALL прийоми за 2025 і 2026 рік за допомогою CTE
+2. Робить JOIN 5 таблиць для повної інформації про лікарів, відділення, пацієнтів та діагнози
+3. Фільтрує дані за статусом Completed і групує їх щоб порахувати кількість прийомів для кожного лікаря і пацієнта
+4. Сортує результат за іменем лікаря
