@@ -72,24 +72,23 @@ order by item_total desc;
 ---
 ## Execution Plan 
 ---
-Sort  (cost=51.39..51.40 rows=2 width=270) (actual time=0.712..0.713 rows=4.00 loops=1)
-  Sort Key: (((oi.quantity)::numeric * oi.price)) DESC
-  Sort Method: quicksort  Memory: 25kB
-  Buffers: shared hit=5
-  ->  Hash Join  (cost=37.23..51.38 rows=2 width=270) (actual time=0.521..0.523 rows=4.00 loops=1)
-        Hash Cond: (p.product_id = oi.product_id)
-        Buffers: shared hit=2
-        ->  Seq Scan on products p  (cost=0.00..13.00 rows=300 width=222) (actual time=0.043..0.043 rows=12.00 loops=1)
-              Buffers: shared hit=1
-        ->  Hash  (cost=37.20..37.20 rows=2 width=24) (actual time=0.443..0.443 rows=4.00 loops=1)
-              Buckets: 1024  Batches: 1  Memory Usage: 9kB
-              Buffers: shared hit=1
-              ->  Seq Scan on order_items oi  (cost=0.00..37.20 rows=2 width=24) (actual time=0.198..0.202 rows=4.00 loops=1)
-                    Filter: ((order_id = 1) AND (((quantity)::numeric * price) > '100'::numeric))
-                    Rows Removed by Filter: 17
-                    Buffers: shared hit=1
-Planning:
-  Buffers: shared hit=21
-Planning Time: 2.417 ms
-Execution Time: 0.939 ms
+Sort (cost=51.39..51.40 rows=2 width=270) (actual time=0.263..0.264 rows=4 loops=1)
+
+Sort Key: (oi.quantity * oi.price) DESC
+
+-> Hash Join (cost=37.23..51.38 rows=2 width=270) (actual time=0.207..0.210 rows=4 loops=1)
+
+Hash Cond: (p.product_id = oi.product_id)
+
+-> Seq Scan on products p (actual time=0.096..0.097 rows=12 loops=1)
+
+-> Seq Scan on order_items oi (actual time=0.031..0.035 rows=4 loops=1)
+
+Filter: (order_id = 1) AND (quantity * price > 100)
+
+Rows Removed by Filter: 17
+
+Planning Time: 1.462 ms
+
+Execution Time: 0.377 ms
 
