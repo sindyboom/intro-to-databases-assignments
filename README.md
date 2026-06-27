@@ -1,3 +1,6 @@
+
+## 1 AND 2 ASSIGNMENTS HERE 
+
 1 ASSIGNMENT з бонусами: Hospital database. SQL SELECT queries with JOIN, GROUP BY, CTE, UNION ALL
 Головний запит :
 1. Об'єднує через UNION ALL прийоми за 2025 і 2026 рік за допомогою CTE (all_appointments)
@@ -16,6 +19,7 @@
 - JOIN 3 таблиць
 - 1 вкладений підзапит в `WHERE` для підрахунку кількості замовлень клієнта (`having count > 3`)
 - підзапити повторно джойнять ті самі таблиці і це зайве навантаження на БД
+  
 | Metric | Value |
 |--------|-------|
 | Execution time | 1129 ms |
