@@ -33,3 +33,35 @@ begin
     set stock_quantity = stock_quantity - p_quantity where product_id = p_product_id;
 end;
 $$;
+create or replace function update_order_items_total()
+returns trigger
+language plpgsql
+as $$
+begin
+    update orders
+    set total_amount = calculate_order_total(coalesce(new.order_id, old.order_id))
+    where order_id = coalesce(new.order_id, old.order_id);
+    return null;
+end;
+$$;
+
+create trigger trigger_update_total
+after insert or update or delete on order_items
+for each row
+execute function update_order_items_total();
+
+create or replace function trigger_log_order_created()
+returns trigger
+language plpgsql
+as $$
+begin
+    insert into order_log (order_id, customer_id, action, log_date)
+    values (new.order_id, new.customer_id, 'Order was created', now());
+    return null;
+end;
+$$;
+
+create trigger trigger_log
+after insert on orders
+for each row
+execute function trigger_log_order_created();
