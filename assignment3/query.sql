@@ -33,6 +33,7 @@ begin
     set stock_quantity = stock_quantity - p_quantity where product_id = p_product_id;
 end;
 $$;
+
 create or replace function update_order_items_total()
 returns trigger
 language plpgsql
@@ -44,7 +45,6 @@ begin
     return null;
 end;
 $$;
-
 create trigger trigger_update_total
 after insert or update or delete on order_items
 for each row
@@ -60,8 +60,30 @@ begin
     return null;
 end;
 $$;
-
 create trigger trigger_log
 after insert on orders
 for each row
 execute function trigger_log_order_created();
+-- створюю клієнтів
+insert into customers (full_name, email, balance)
+values
+    ('Izolda Kassandrovna', 'izolda@example.com', 500),
+    ('Victor Dudka', 'victor@example.com', 300);
+-- створюю продукти
+insert into products (product_name, price, stock_quantity)
+values
+    ('laptop67', 25000, 10),
+    ('mouse67', 350, 50);
+-- створюю замовлення через процедуру
+call create_order(1);
+call create_order(2);
+-- додаю товари через процедуру
+call add_product_to_order(1, 11, 1);
+call add_product_to_order(1, 12, 2);
+call add_product_to_order(2, 2, 3);
+-- перевіряю total_amount (має оновитись автоматично)
+select order_id, total_amount from orders;
+-- перевіряю stock_quantity (має зменшитись)
+select product_id, product_name, stock_quantity from products;
+-- перевіряю лог
+select * from order_log;
