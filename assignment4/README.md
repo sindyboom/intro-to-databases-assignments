@@ -61,6 +61,7 @@ create index idx_albums_artist_id on albums(artist_id);
 | Join | Hash Join | Merge Join |
 
 ### Висновок
+---
 Після створення індексів запит виконується у **3 рази швидше**. 
 PostgreSQL замість повного перебору таблиць використовує індекси,
 а Hash Join замінився на Merge Join.
@@ -117,12 +118,7 @@ select * from top_artists;
 `add_song` додає нову пісню в таблицю `songs`.
 
 ```sql
-create or replace procedure add_song(
-    p_album_id int,
-    p_artist_id int,
-    p_title varchar,
-    p_duration int
-)
+create or replace procedure add_song(p_album_id int, p_artist_id int,p_title varchar,  p_duration int)
 language plpgsql as $$
 begin
     insert into songs (album_id, artist_id, title, duration_sec)
