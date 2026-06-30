@@ -1,9 +1,4 @@
-create or replace procedure add_song(
-    p_album_id int,
-    p_artist_id int,
-    p_title varchar,
-    p_duration int
-)
+create or replace procedure add_song( p_album_id int,p_artist_id int, p_title varchar,p_duration int)
 language plpgsql as $$
 begin
     insert into songs (album_id, artist_id, title, duration_sec)
